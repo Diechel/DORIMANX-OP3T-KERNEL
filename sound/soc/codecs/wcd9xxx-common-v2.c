@@ -437,6 +437,7 @@ static void wcd_clsh_set_gain_path(struct snd_soc_codec *codec,
 		val = 0x01;
 		break;
 	default:
+		pr_err("%s: Invalid mode: %d\n", __func__, mode);
 		return;
 	};
 	snd_soc_update_bits(codec, WCD9XXX_HPH_L_EN, 0xC0, (val << 6));
@@ -447,7 +448,7 @@ static void wcd_clsh_set_hph_mode(struct snd_soc_codec *codec,
 				  int mode)
 {
 	u8 val;
-	u8 gain;
+	u8 gain = DAC_GAIN_0DB;
 	u8 res_val = VREF_FILT_R_0OHM;
 	u8 ipeak = DELTA_I_50MA;
 
@@ -475,6 +476,7 @@ static void wcd_clsh_set_hph_mode(struct snd_soc_codec *codec,
 		ipeak = DELTA_I_30MA;
 		break;
 	default:
+		pr_err("%s: Invalid mode: %d\n", __func__, mode);
 		return;
 	};
 
@@ -561,7 +563,7 @@ static void wcd_clsh_state_hph_ear(struct snd_soc_codec *codec,
 				   struct wcd_clsh_cdc_data *clsh_d,
 				   u8 req_state, bool is_enable, int mode)
 {
-	int hph_mode;
+	int hph_mode = CLS_NONE;
 
 	dev_dbg(codec->dev, "%s: mode: %s, %s\n", __func__, mode_to_str(mode),
 		is_enable ? "enable" : "disable");
@@ -581,7 +583,8 @@ static void wcd_clsh_state_hph_ear(struct snd_soc_codec *codec,
 						WCD_CLSH_STATE_HPHR);
 			else
 				return;
-			if (hph_mode != CLS_AB && !is_native_44_1_active(codec))
+			if (hph_mode != CLS_NONE && hph_mode != CLS_AB &&
+				!is_native_44_1_active(codec))
 				snd_soc_update_bits(codec,
 						WCD9XXX_A_CDC_RX0_RX_PATH_CFG0,
 						0x40, 0x40);
@@ -706,7 +709,7 @@ static void wcd_clsh_state_hph_lo(struct snd_soc_codec *codec,
 				  struct wcd_clsh_cdc_data *clsh_d,
 				  u8 req_state, bool is_enable, int mode)
 {
-	int hph_mode;
+	int hph_mode = CLS_NONE;
 
 	dev_dbg(codec->dev, "%s: mode: %s, %s\n", __func__, mode_to_str(mode),
 		is_enable ? "enable" : "disable");

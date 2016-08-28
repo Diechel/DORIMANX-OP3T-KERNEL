@@ -1316,7 +1316,8 @@ static void hdcp_lib_msg_recvd(struct hdcp_lib_handle *handle)
 	}
 
 exit:
-	kzfree(msg);
+	if (msg)
+		kzfree(msg);
 
 	hdcp_lib_wakeup_client(handle, &cdata);
 
