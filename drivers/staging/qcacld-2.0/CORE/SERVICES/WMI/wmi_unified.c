@@ -155,6 +155,7 @@ wmi_buf_alloc(wmi_unified_t wmi_handle, uint32_t len)
 	return wmi_buf;
 }
 
+#ifdef BUILD_DEBUG_VERSION
 static u_int8_t* get_wmi_cmd_string(WMI_CMD_ID wmi_command)
 {
 	switch(wmi_command)
@@ -722,6 +723,7 @@ static u_int8_t* get_wmi_cmd_string(WMI_CMD_ID wmi_command)
 	}
 	return "Invalid WMI cmd";
 }
+#endif
 
 #ifdef FEATURE_RUNTIME_PM
 inline bool wmi_get_runtime_pm_inprogress(wmi_unified_t wmi_handle)

@@ -832,7 +832,9 @@ void wlan_display_tx_timeout_stats(hdd_adapter_t *adapter)
  */
 static void __hdd_tx_timeout(struct net_device *dev)
 {
+#ifdef BUILD_DEBUG_VERSION
    hdd_adapter_t *pAdapter =  WLAN_HDD_GET_PRIV_PTR(dev);
+#endif
    struct netdev_queue *txq;
    int i = 0;
 
@@ -866,7 +868,9 @@ static void __hdd_tx_timeout(struct net_device *dev)
       hddLog(LOGE, FL("Queue%d status: %d txq->trans_start %lu"),
              i, netif_tx_queue_stopped(txq), txq->trans_start);
    }
+#ifdef BUILD_DEBUG_VERSION
    wlan_display_tx_timeout_stats(pAdapter);
+#endif
 }
 
 /**

@@ -1021,9 +1021,11 @@ static void ramdump_work_handler(struct work_struct *ramdump)
 {
 	struct device *dev = NULL;
 
+#ifdef BUILD_DEBUG_VERSION
 #if !defined(HIF_SDIO)
 #ifdef WLAN_DEBUG
 	int ret;
+#endif
 #endif
 #endif
 	u_int32_t host_interest_address;

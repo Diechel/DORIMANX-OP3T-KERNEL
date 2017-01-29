@@ -1207,7 +1207,9 @@ static void hdd_ndp_confirm_ind_handler(hdd_adapter_t *adapter,
 					void *ind_params)
 {
 	int idx;
+#ifdef BUILD_DEBUG_VERSION
 	uint32_t ndp_qos_config = 0;
+#endif
 	struct ndp_confirm_event *ndp_confirm = ind_params;
 	struct sk_buff *vendor_event;
 	hdd_context_t *hdd_ctx = WLAN_HDD_GET_CTX(adapter);
@@ -1280,11 +1282,18 @@ static void hdd_ndp_confirm_ind_handler(hdd_adapter_t *adapter,
 		goto ndp_confirm_nla_failed;
 
 	cfg80211_vendor_event(vendor_event, GFP_KERNEL);
+#ifdef BUILD_DEBUG_VERSION
 	hddLog(LOG1, FL("NDP confim sent, ndp instance id: %d, peer addr: %pM, ndp_cfg: %d, rsp_code: %d, reason_code: %d"),
 		ndp_confirm->ndp_instance_id,
 		ndp_confirm->peer_ndi_mac_addr.bytes,
 		ndp_qos_config, ndp_confirm->rsp_code,
 		ndp_confirm->reason_code);
+#else
+	hddLog(LOG1, FL("NDP confim sent, ndp instance id: %d, peer addr: %pM, rsp_code: %d, reason_code: %d"),
+		ndp_confirm->ndp_instance_id,
+		ndp_confirm->peer_ndi_mac_addr.bytes,
+		ndp_confirm->rsp_code, ndp_confirm->reason_code);
+#endif
 
 	hddLog(LOG1, FL("NDP confim, ndp app info dump"));
 	VOS_TRACE_HEX_DUMP(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_DEBUG,
