@@ -2130,7 +2130,7 @@ static sector_t f2fs_bmap(struct address_space *mapping, sector_t block)
 	return generic_block_bmap(mapping, block, get_data_block_bmap);
 }
 
-#ifdef CONFIG_F2FS_MIGRATION
+#ifdef CONFIG_MIGRATION
 #include <linux/migrate.h>
 
 int f2fs_migrate_page(struct address_space *mapping,
@@ -2143,8 +2143,8 @@ int f2fs_migrate_page(struct address_space *mapping,
 	BUG_ON(PageWriteback(page));
 
 	/* migrating an atomic written page is safe with the inmem_lock hold */
-	if (atomic_written && !mutex_trylock(&fi->inmem_lock))
-		return -EAGAIN;
+/*	if (atomic_written && !mutex_trylock(&fi->inmem_lock))
+		return -EAGAIN; */
 
 	/*
 	 * A reference is expected if PagePrivate set when move mapping,
@@ -2194,7 +2194,7 @@ const struct address_space_operations f2fs_dblock_aops = {
 	.releasepage	= f2fs_release_page,
 	.direct_IO	= f2fs_direct_IO,
 	.bmap		= f2fs_bmap,
-#ifdef CONFIG_F2FS_MIGRATION
+#ifdef CONFIG_MIGRATION
 	.migratepage    = f2fs_migrate_page,
 #endif
 };
