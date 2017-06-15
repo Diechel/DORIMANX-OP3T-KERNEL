@@ -12561,7 +12561,6 @@ void sme_UpdateEnableSSR(tHalHandle hHal, tANI_BOOLEAN enableSSR)
  * SME API to stringify bonding mode. (hostapd convention)
  */
 
-#ifdef BUILD_DEBUG_VERSION
 static const char* sme_CBMode2String( tANI_U32 mode)
 {
    switch (mode)
@@ -12587,7 +12586,6 @@ static const char* sme_CBMode2String( tANI_U32 mode)
          return "Unknown";
    }
 }
-#endif
 
 /*
  * SME API to adjust bonding mode to regulatory, dfs nol .. etc.
