@@ -131,7 +131,7 @@ BUILD_NOW()
 		# create the flashable zip file from the contents of the installer directory
 		cd READY-KERNEL/installer/;
 		echo "Creating flashable zip..........."
-		zip -r Kernel-"${GETVER}"-OP3T-"$(date +"[%H-%M]-[%d-%m]-PWR-CORE")".zip * >/dev/null
+		zip -r Kernel-"${GETVER}"-OP3T-"$(date +"[%H-%M]-[%d-%m]-7.1.x-PWR-CORE")".zip * >/dev/null
 		mv *.zip ../
 		cd $KERNELDIR;
 		echo "Cleaning";
