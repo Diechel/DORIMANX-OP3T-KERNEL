@@ -10,6 +10,8 @@ BACKUP="/sdcard/.dorimanx.backup"
 echo "on boot" >> $CONFIGFILE
 echo "" >> $CONFIGFILE
 
+echo "mount none /dori_modules /system/lib/modules/ bind" >> $CONFIGFILE
+
 # fsync
 FSYNC=`grep "item.0.1" /tmp/aroma/mods.prop | cut -d '=' -f2`
 if [ $FSYNC = 1 ]; then
